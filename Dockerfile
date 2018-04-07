@@ -10,3 +10,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install xml
 RUN docker-php-ext-install gd
+RUN docker-php-ext-install bcmath
+RUN apt-get install -y zlib1g-dev libicu-dev g++
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
