@@ -14,3 +14,4 @@ RUN docker-php-ext-install bcmath
 RUN apt-get install -y zlib1g-dev libicu-dev g++
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
+RUN pecl install xdebug && docker-php-ext-enable xdebug
