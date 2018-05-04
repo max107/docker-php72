@@ -1,17 +1,13 @@
-FROM php:7.1
-RUN DEBIAN_FRONTEND=noninteractive curl -sL https://deb.nodesource.com/setup_8.x | bash && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y openssh-client git curl zip make rsync sshpass apt-utils nodejs build-essential
+FROM php:7.2
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+	apt-get install --no-install-recommends -y openssh-client git curl zip make rsync sshpass apt-utils build-essential
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zlib1g zlib1g-dev
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install yarn
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq libpng-dev libxml2-dev
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install pdo_mysql
-RUN docker-php-ext-install xml
-RUN docker-php-ext-install gd
-RUN docker-php-ext-install bcmath
-RUN apt-get install -y zlib1g-dev libicu-dev g++
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq zlib1g zlib1g-dev libpng-dev libxml2-dev zlib1g-dev libicu-dev g++
+RUN docker-php-ext-install zip && \
+	docker-php-ext-install pdo_mysql && \
+	docker-php-ext-install xml && \
+	docker-php-ext-install gd && \
+	docker-php-ext-install bcmath && \
+	docker-php-ext-configure intl && \
+	docker-php-ext-install intl
 RUN pecl install xdebug && docker-php-ext-enable xdebug
